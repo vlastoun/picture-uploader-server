@@ -4,14 +4,39 @@
 // License text available at https://opensource.org/licenses/Artistic-2.0
 
 module.exports = function (app) {
-  var User = app.models.user;
+  const User = app.models.user;
+  const Category = app.models.category
+
+
+
+  Category.create([
+    {
+      name: "prvni kategorie",
+      description: "popispplkasldkas;ldk kklkkajsldkj oeiiepuepokf"
+    },
+    {
+      name: "tret kategorie",
+      description: "fuckoff fuckoff fuckoff"
+    },
+    {
+      name: "druha kategorie",
+      description: "fuckoff fuckoflaksd;lkas;dlka;lsdk;alslkdlkj"
+    }
+    ], (err, data) => {
+    err
+      ? console.log(err)
+      : console.log("categories created")
+    }
+  );
+
 
   User.create([
+    { username: 'admin', email: 'admin@admin', password: 'admin' },
     { username: 'John', email: 'john@doe.com', password: 'opensesame' },
     { username: 'Jane', email: 'jane@doe.com', password: 'opensesame' },
     { username: 'Bob', email: 'bob@projects.com', password: 'opensesame' }
   ], function (err, users) {
     if (err) throw err;
-    console.log('Created users', users);
-    })
+    console.log("Users created");
+  })
 };

@@ -1,11 +1,20 @@
 {
-  "name": "user",
-  "base": "User",
+  "name": "category",
+  "plural": "ctagories",
+  "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
-  "properties": {},
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    }
+  },
   "validations": [],
   "relations": {
     "posts": {
