@@ -47,5 +47,13 @@
   "category": {
     "dataSource": "db",
     "public": true
+  },
+  "container": {
+    "dataSource": "storage",
+    "public": true
+  },
+  "picture": {
+    "dataSource": "db",
+    "public": true
   }
 }
