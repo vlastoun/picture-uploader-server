@@ -4,7 +4,14 @@ var CONTAINERS_URL = '/api/containers/';
 module.exports = function(picture) {
   picture.upload = function(req, res, cb) {
     var StorageContainer = picture.app.models.container;
-    StorageContainer.upload(req, res, {container: 'pictures'}, cb);
+    StorageContainer.upload(req, res, {container: 'pictures'}, function(err, file) {
+      if (err) {
+        cb(err);
+      } else {
+        console.log(file.files.image[0]);
+        cb(null, file);
+      }
+    });
   };
 
   picture.remoteMethod(
