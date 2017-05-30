@@ -26,7 +26,7 @@ module.exports = function(picture) {
         console.log('resized to fit within 256x256px');
       });
     });
-    return cb('done');
+    cb(null, 'done');
   };
 
   picture.remoteMethod(
@@ -42,3 +42,4 @@ module.exports = function(picture) {
     }
   );
 };
+
