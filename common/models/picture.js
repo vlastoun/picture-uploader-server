@@ -2,7 +2,7 @@
 var CONTAINERS_URL = '/api/containers/';
 /* eslint-disable max-len */
 module.exports = function(picture) {
-  picture.upload = function(req, res, cb) {
+  picture.upload = function(req, res, postId, cb) {
     var StorageContainer = picture.app.models.container;
     StorageContainer.upload(req, res, {container: 'pictures'}, function(err, file) {
       if (err) {
@@ -13,7 +13,7 @@ module.exports = function(picture) {
           name: fileInfo.name,
           type: fileInfo.type,
           container: fileInfo.container,
-          postId: file.fields.postId,
+          postId: postId,
           url: CONTAINERS_URL + fileInfo.container + '/download/' + fileInfo.name,
         }, function(err, object) {
           if (err) {
@@ -33,6 +33,7 @@ module.exports = function(picture) {
       accepts: [
         {arg: 'req', type: 'object', 'http': {source: 'req'}},
         {arg: 'res', type: 'object', 'http': {source: 'res'}},
+        {arg: 'postId', type: 'string', required: true},
       ],
       returns: {arg: 'status', type: 'string'},
     }
