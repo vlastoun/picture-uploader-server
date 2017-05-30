@@ -2,31 +2,42 @@
 var CONTAINERS_URL = '/api/containers/';
 var formidable = require('formidable');
 var im = require('imagemagick');
-var PATH = __dirname + '/../../files/pictures/';
+var CONTAINER = 'pictures/';
+var PATH = __dirname + `/../../files/${CONTAINER}/`;
 /* eslint-disable max-len */
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
-    var form = new formidable.IncomingForm();
+    var originalName = '';
     var STAMP = Date.now();
+    var form = new formidable.IncomingForm();
     form.multiples = false;
     form.parse(req);
     form.on('fileBegin', function(name, file) {
-      var newName = STAMP + '_' + file.name;
-      file.path = PATH + newName;
+      originalName = file.name;
+      file.name = STAMP + '_' + file.name;
+      file.path = PATH + file.name;
     });
 
     form.on('file', function(name, file) {
-      var smallName = STAMP + '_' + 'small_' + file.name;
+      var smallName = `${STAMP}_small_${originalName}`;
       im.resize({
         srcPath: file.path,
         dstPath: PATH + smallName,
         width: 256,
       }, function(err, stdout, stderr) {
         if (err) throw err;
-        console.log('resized to fit within 256x256px');
+        picture.create({
+          name: file.name,
+          type: 'unknown',
+          postId: postId,
+          url: `${CONTAINERS_URL}${CONTAINER}download/${file.name}`,
+        }, function(err, object) {
+          err
+            ? cb(err)
+            : cb(null, object);
+        });
       });
     });
-    cb(null, 'done');
   };
 
   picture.remoteMethod(
@@ -42,4 +53,3 @@ module.exports = function(picture) {
     }
   );
 };
-
