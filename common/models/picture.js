@@ -1,22 +1,32 @@
 'use strict';
 var CONTAINERS_URL = '/api/containers/';
 var formidable = require('formidable');
+var im = require('imagemagick');
+var PATH = __dirname + '/../../files/pictures/';
 /* eslint-disable max-len */
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
     var form = new formidable.IncomingForm();
+    var STAMP = Date.now();
     form.multiples = false;
     form.parse(req);
     form.on('fileBegin', function(name, file) {
-      file.path = __dirname + '/../../files/pictures/' + Date.now() + '_' + file.name;
+      var newName = STAMP + '_' + file.name;
+      file.path = PATH + newName;
     });
-    form.on('progress', function(bytesReceived, bytesExpected) {
-      var percentCompleted = (bytesReceived / bytesExpected) * 100;
-      console.log(percentCompleted.toFixed(2));
-    });
+
     form.on('file', function(name, file) {
-      console.log(file);
+      var smallName = STAMP + '_' + 'small_' + file.name;
+      im.resize({
+        srcPath: file.path,
+        dstPath: PATH + smallName,
+        width: 256,
+      }, function(err, stdout, stderr) {
+        if (err) throw err;
+        console.log('resized to fit within 256x256px');
+      });
     });
+    return cb('done');
   };
 
   picture.remoteMethod(
