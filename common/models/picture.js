@@ -1,6 +1,6 @@
 'use strict';
 var CONTAINERS_URL = '/api/containers/';
-
+/* eslint-disable max-len */
 module.exports = function(picture) {
   picture.upload = function(req, res, cb) {
     var StorageContainer = picture.app.models.container;
@@ -8,8 +8,20 @@ module.exports = function(picture) {
       if (err) {
         cb(err);
       } else {
-        console.log(file.files.image[0]);
-        cb(null, file);
+        var fileInfo = file.files.image[0];
+        console.log(fileInfo);
+        picture.create({
+          name: fileInfo.name,
+          type: fileInfo.type,
+          container: fileInfo.container,
+          url: CONTAINERS_URL + fileInfo.container + '/download/' + fileInfo.name,
+        }, function(err, object) {
+          if (err) {
+            cb(err);
+          } else {
+            cb(null, object);
+          }
+        });
       }
     });
   };
