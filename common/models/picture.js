@@ -1,28 +1,21 @@
 'use strict';
 var CONTAINERS_URL = '/api/containers/';
+var formidable = require('formidable');
 /* eslint-disable max-len */
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
-    var StorageContainer = picture.app.models.container;
-    StorageContainer.upload(req, res, {container: 'pictures'}, function(err, file) {
-      if (err) {
-        cb(err);
-      } else {
-        var fileInfo = file.files.image[0];
-        picture.create({
-          name: fileInfo.name,
-          type: fileInfo.type,
-          container: fileInfo.container,
-          postId: postId,
-          url: CONTAINERS_URL + fileInfo.container + '/download/' + fileInfo.name,
-        }, function(err, object) {
-          if (err) {
-            cb(err);
-          } else {
-            cb(null, object);
-          }
-        });
-      }
+    var form = new formidable.IncomingForm();
+    form.multiples = false;
+    form.parse(req);
+    form.on('fileBegin', function(name, file) {
+      file.path = __dirname + '/../../files/pictures/' + Date.now() + '_' + file.name;
+    });
+    form.on('progress', function(bytesReceived, bytesExpected) {
+      var percentCompleted = (bytesReceived / bytesExpected) * 100;
+      console.log(percentCompleted.toFixed(2));
+    });
+    form.on('file', function(name, file) {
+      console.log(file);
     });
   };
 
