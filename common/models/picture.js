@@ -9,11 +9,11 @@ module.exports = function(picture) {
         cb(err);
       } else {
         var fileInfo = file.files.image[0];
-        console.log(fileInfo);
         picture.create({
           name: fileInfo.name,
           type: fileInfo.type,
           container: fileInfo.container,
+          postId: file.fields.postId,
           url: CONTAINERS_URL + fileInfo.container + '/download/' + fileInfo.name,
         }, function(err, object) {
           if (err) {

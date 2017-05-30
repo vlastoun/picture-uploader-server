@@ -26,6 +26,11 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": ""
+    },
+    "pictures": {
+      "type": "hasMany",
+      "model": "picture",
+      "foreignKey": ""
     }
   },
   "acls": [],
