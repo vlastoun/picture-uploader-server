@@ -3,6 +3,7 @@ var CONTAINERS_URL = '/api/containers/';
 var formidable = require('formidable');
 var im = require('imagemagick');
 var fs = require('fs');
+var gm = require('gm').subClass({imageMagick: true});
 var CONTAINER = 'pictures/';
 var PATH = `${__dirname}/../../files/${CONTAINER}/`;
 /* eslint-disable max-len */
@@ -25,29 +26,37 @@ module.exports = function(picture) {
 
     //resize picture
     form.on('file', function(name, file) {
-      var smallName = `${STAMP}_thumbnail_${originalName}`;
+      var smallName = `${STAMP}_small_${originalName}`;
       // settings
       im.resize({
         srcPath: file.path,
         dstPath: PATH + smallName,
-        width: 100,
-        quality: 0.8,
-        format: 'jpg',
-        progressive: false,
-        strip: true,
-        filter: 'Lagrange',
-        sharpening: 0.2,
+        width: 300,
       }, function(err, stdout, stderr) {
         // if not processable then error and delete file
         if(err){
           fs.unlink(filePath, function(err){
           });
           cb('not an image')
-        } else {
+        } else { 
+          var thumbnailName = `${STAMP}_thumbnail_${originalName}`;
+          im.resize({
+            srcPath: file.path,
+            dstPath: PATH + thumbnailName,
+            width: 100,
+            quality: 0.8,
+            progressive: false,
+            strip: true,
+            filter: 'Lagrange',
+            sharpening: 0.2,        
+          }, function (err, stdout, stderr){
+            if (err) console.log(err);
+          });
           cb(null, 'ok')
         }        
       });
-    })
+
+    });
   };
 
   picture.remoteMethod(
