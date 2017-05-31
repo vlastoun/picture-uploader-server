@@ -12,20 +12,21 @@ module.exports = function(picture) {
     var filePath = '';
     var STAMP = Date.now();
     var form = new formidable.IncomingForm();
-    var uploadError = false;
     form.multiples = false;
-    form.maxFieldsSize = 2 * 1024 * 1024;
-    form.parse(req);
 
-    form
-    .on('fileBegin', function(name, file) {
+    //read file
+    form.parse(req);
+    form.on('fileBegin', function(name, file) {
       originalName = file.name;
       file.name = STAMP + '_' + file.name;
       file.path = PATH + file.name;
       filePath = file.path
     })
-    .on('file', function(name, file) {
+
+    //resize picture
+    form.on('file', function(name, file) {
       var smallName = `${STAMP}_thumbnail_${originalName}`;
+      // settings
       im.resize({
         srcPath: file.path,
         dstPath: PATH + smallName,
@@ -37,37 +38,15 @@ module.exports = function(picture) {
         filter: 'Lagrange',
         sharpening: 0.2,
       }, function(err, stdout, stderr) {
+        // if not processable then error and delete file
         if(err){
-          uploadError = true;
           fs.unlink(filePath, function(err){
-
           });
+          cb('not an image')
+        } else {
+          cb(null, 'ok')
         }        
       });
-    })
-    .on('file', function(name, file) {
-      var smallName = `${STAMP}_small_${originalName}`;
-      im.resize({
-        srcPath: file.path,
-        dstPath: PATH + smallName,
-        width: 256,
-      }, function(err, stdout, stderr) {
-        if(err){
-          uploadError = true;          
-          fs.unlink(filePath, function(err){
-
-          });
-        }      
-      });
-    })
-    .on('error', function(err, file) {
-      cb('error occured')
-      uploadError = true;
-
-    })
-    .on('aborted', function() {
-      cb('uploading aborted')
-      uploadError = true;
     })
   };
 
