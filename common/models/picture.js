@@ -2,8 +2,6 @@
 var CONTAINERS_URL = '/api/containers/';
 var formidable = require('formidable');
 var im = require('imagemagick');
-var fs = require('fs');
-var gm = require('gm').subClass({imageMagick: true});
 var CONTAINER = 'pictures/';
 var PATH = `${__dirname}/../../files/${CONTAINER}/`;
 /* eslint-disable max-len */
@@ -52,7 +50,20 @@ module.exports = function(picture) {
           }, function (err, stdout, stderr){
             if (err) console.log(err);
           });
-          cb(null, 'ok')
+          picture.create({
+            name: file.name,
+            type: file.type,
+            url: `${CONTAINERS_URL}${CONTAINER}download/${file.name}`,
+            small: `${CONTAINERS_URL}${CONTAINER}download/${smallName}`,
+            thumbnail: `${CONTAINERS_URL}${CONTAINER}download/${thumbnailName}`,
+            postId: postId,
+          }, function(err, object){
+            if (err){
+              cb(err)
+            } else {
+              cb(null, object);
+            }
+          })
         }        
       });
 
@@ -72,3 +83,4 @@ module.exports = function(picture) {
     }
   );
 };
+
