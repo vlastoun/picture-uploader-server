@@ -12,18 +12,19 @@ module.exports = function(picture) {
     var filePath = '';
     var STAMP = Date.now();
     var form = new formidable.IncomingForm();
+    var uploadError = false;
     form.multiples = false;
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.parse(req);
 
-    form.on('fileBegin', function(name, file) {
+    form
+    .on('fileBegin', function(name, file) {
       originalName = file.name;
       file.name = STAMP + '_' + file.name;
       file.path = PATH + file.name;
       filePath = file.path
-    });
-
-    form.on('file', function(name, file) {
+    })
+    .on('file', function(name, file) {
       var smallName = `${STAMP}_thumbnail_${originalName}`;
       im.resize({
         srcPath: file.path,
@@ -37,14 +38,14 @@ module.exports = function(picture) {
         sharpening: 0.2,
       }, function(err, stdout, stderr) {
         if(err){
+          uploadError = true;
           fs.unlink(filePath, function(err){
-            cb('not processable image');
+
           });
         }        
       });
-    });
-
-    form.on('file', function(name, file) {
+    })
+    .on('file', function(name, file) {
       var smallName = `${STAMP}_small_${originalName}`;
       im.resize({
         srcPath: file.path,
@@ -52,21 +53,22 @@ module.exports = function(picture) {
         width: 256,
       }, function(err, stdout, stderr) {
         if(err){
+          uploadError = true;          
           fs.unlink(filePath, function(err){
-            cb('not processable image');
+
           });
         }      
       });
-    }); 
-
-    form.on('error', function(err, file) {
+    })
+    .on('error', function(err, file) {
       cb('error occured')
-      console.log(file.name);
-    });
+      uploadError = true;
 
-    form.on('aborted', function() {
+    })
+    .on('aborted', function() {
       cb('uploading aborted')
-    });  
+      uploadError = true;
+    })
   };
 
   picture.remoteMethod(
