@@ -3,9 +3,9 @@ let co = require('co');
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
     co(function* () {
-      const pic = yield picture.create({name: Date.now()});
+      const pic = yield picture.create({description: Date.now()});
       cb(null, pic);
-    }).catch(err => handleError(err));
+    }).catch(err => cb(err));
   };
 
   picture.remoteMethod(
