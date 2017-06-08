@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "co": "^4.6.0",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "eslint-config-loopback": "^4.0.0",

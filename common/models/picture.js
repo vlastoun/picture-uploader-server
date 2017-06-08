@@ -1,11 +1,11 @@
-var Bl = require('bluebird');
+let co = require('co');
 
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
-    Bl.coroutine(function* () {
-      var pic = yield picture.create({description: Date.now()});
-      var found =  yield picture.findById(5);
-    })().catch((err)=>{console.log(err.details)});
+    co(function* () {
+      const pic = yield picture.create({name: Date.now()});
+      cb(null, pic);
+    }).catch(err => handleError(err));
   };
 
   picture.remoteMethod(
