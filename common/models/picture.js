@@ -1,11 +1,16 @@
-let co = require('co');
+// run generator
+const co = require('co');
+const formidable = require('formidable');
 
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
     co(function* () {
-      const pic = yield picture.create({description: Date.now()});
-      cb(null, pic);
-    }).catch(err => cb(err));
+      try {
+        const pic = yield picture.create({description: Date.now()});
+      } catch (error) {
+        console.log(error.details);
+      }
+    });
   };
 
   picture.remoteMethod(
