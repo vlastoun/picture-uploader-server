@@ -12,18 +12,25 @@ module.exports = class PictureUploader {
   }
 
   parseRequest(req) {
-    this.request = req;
-    var form = new multiparty.Form({uploadDir: PATH});
-    form.parse(req, function(err, fields, files) {
-      Object.keys(fields).forEach(function(name) {
-        console.log('got field named ' + name);
+    return new Promise((resolve, reject) => {
+      this.request = req;
+      let result;
+      var form = new multiparty.Form({uploadDir: PATH});
+      form.on('file', (name, file) => {
+        console.log(file.fieldName);
+      });
+      form.on('aborted', () => {
+        reject(Error('aborted'));
+      });
+      form.on('close', function() {
+        resolve('done');
       });
 
-      Object.keys(files).forEach(function(name) {
-        console.log('got file named ' + name);
+      form.parse(req, function(err, fields, files) {
+        if (err) {
+          result = new Error(err);
+        }
       });
-
-      console.log('Upload completed!');
     });
   }
 };
