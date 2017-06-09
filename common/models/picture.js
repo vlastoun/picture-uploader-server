@@ -8,7 +8,7 @@ const PictureUploader = require('./PictureUploader');
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
     let pic = new PictureUploader();
-    pic.parseRequest(req).then(res => console.log('test'));
+    pic.parseRequest(req).then(res => cb(null, res));
   };
 
   picture.remoteMethod(

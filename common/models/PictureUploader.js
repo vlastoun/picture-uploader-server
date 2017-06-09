@@ -1,4 +1,5 @@
 var multiparty = require('multiparty');
+var fs = require('fs');
 const CONTAINER = 'pictures';
 const PATH = `${__dirname}/../../files/${CONTAINER}/`;
 
@@ -17,7 +18,13 @@ module.exports = class PictureUploader {
       let result;
       var form = new multiparty.Form({uploadDir: PATH});
       form.on('file', (name, file) => {
-        console.log(file.fieldName);
+        let oldPath = file.path;
+        let newPath = `${PATH}${this.stamp}_${file.originalFilename}`;
+        fs.rename(oldPath, newPath, (err)=>{
+          if (err) {
+            console.log(err);
+          }
+        });
       });
       form.on('aborted', () => {
         reject(Error('aborted'));
