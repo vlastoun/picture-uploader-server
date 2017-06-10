@@ -1,4 +1,5 @@
  var im = require('imagemagick');
+ var fs = require('fs');
  /**
  * Private by naming convention
  * @param {object} file
@@ -13,7 +14,9 @@
        dstPath: `${file.dstPath}${file.stamp}_${suffix}_${file.fileName}`,
      }, (err, stdout, stderr)=>{
        if (err) {
-         reject(err);
+         fs.unlink(file.path, ()=>{
+           resolve('not processable');
+         });
        } else {
          let filename = `${file.stamp}_${suffix}_${file.fileName}`;
          resolve(filename);
