@@ -4,8 +4,12 @@ const PictureUploader = require('./picture/PictureUploader');
 
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
-    let pic = new PictureUploader();
-    pic.parseRequest(req).then(res => cb(null, res));
+    co(function*() {
+      let pic = new PictureUploader();
+      const result =  yield pic.parseRequest(req);
+      const shrinkResult = yield pic.shrinkFiles();
+      cb(null, result);
+    });
   };
 
   picture.remoteMethod(
