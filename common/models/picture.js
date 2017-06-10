@@ -8,8 +8,9 @@ module.exports = function(picture) {
       let pic = new PictureUploader();
       const result =  yield pic.parseRequest(req);
       const shrinkResult = yield pic.shrinkFiles();
-      cb(null, result);
-    });
+      cb(null, shrinkResult);
+    })
+    .catch(err => { cb(err); });
   };
 
   picture.remoteMethod(

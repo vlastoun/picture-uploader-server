@@ -59,8 +59,12 @@ module.exports = class PictureUploader {
       this.files.forEach(file=>{
         let fileToShrink = file;
         co(function*() {
-          yield shrinkFile(fileToShrink, 150, 'thumbnail');
-          yield shrinkFile(fileToShrink, 350, 'small');
+          let result = yield[
+            shrinkFile(fileToShrink, 150, 'thumbnail'),
+            shrinkFile(fileToShrink, 350, 'small'),
+          ];
+          console.log(result);
+          resolve(result);
         }).catch(err => reject(err));
       });
     });

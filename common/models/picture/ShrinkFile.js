@@ -13,8 +13,10 @@
        dstPath: `${file.dstPath}${file.stamp}_${suffix}_${file.fileName}`,
      }, (err, stdout, stderr)=>{
        if (err) {
+         console.log(err);
          reject(err);
        } else {
+         let sendFile = file;
          resolve(file);
        }
      });
