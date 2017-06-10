@@ -10,7 +10,7 @@ var path = require('path');
 
 var app = module.exports = loopback();
 
-app.middleware('initial', bodyParser.urlencoded({ extended: true }));
+app.middleware('initial', bodyParser.urlencoded({extended: true}));
 
 // Bootstrap the application, configure models, datasources and middleware.
 

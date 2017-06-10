@@ -1,9 +1,6 @@
 // run generator
 const co = require('co');
-const formidable = require('formidable');
-const CONTAINER = 'pictures';
-const PATH = `${__dirname}/../../files/${CONTAINER}/`;
-const PictureUploader = require('./PictureUploader');
+const PictureUploader = require('./picture/PictureUploader');
 
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
