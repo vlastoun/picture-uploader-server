@@ -61,12 +61,18 @@ module.exports = class PictureUploader {
       let allFiles = [];
       co(function*() {
         for (let i = 0; i < fileToShrink.length; i++) {
-          let result = yield {
-            details: fileToShrink[i],
-            thumbnail: shrinkFile(fileToShrink[i], 150, 'thumbnail'),
-            small: shrinkFile(fileToShrink[i], 350, 'small'),
-          };
-          allFiles.push(result);
+          try {
+            let result = yield {
+              details: fileToShrink[i],
+              thumbnail: shrinkFile(fileToShrink[i], 150, 'thumbnail'),
+              small: shrinkFile(fileToShrink[i], 350, 'small'),
+            };
+            allFiles.push(result);
+          } catch (e) {
+            fs.unlink(fileToShrink[i].path, ()=>{
+              console.log('Deleted: ', fileToShrink[i].name);
+            });
+          }
         }
         yield resolve(allFiles);
       }).catch(err => reject(err));

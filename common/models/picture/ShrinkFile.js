@@ -14,9 +14,7 @@
        dstPath: `${file.dstPath}${file.stamp}_${suffix}_${file.fileName}`,
      }, (err, stdout, stderr)=>{
        if (err) {
-         fs.unlink(file.path, ()=>{
-           resolve('not processable');
-         });
+         reject(new Error('not processable'));
        } else {
          let filename = `${file.stamp}_${suffix}_${file.fileName}`;
          resolve(filename);
