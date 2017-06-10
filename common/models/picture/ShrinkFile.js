@@ -6,14 +6,13 @@
  * @param {string} suffix
  */
  module.exports = function shrinkFile(file, width = 300, suffix = 'shrinked') {
-   return new Promise((reject, resolve)=>{
+   return new Promise((resolve, reject)=>{
      im.resize({
        width: width,
        srcPath: file.path,
        dstPath: `${file.dstPath}${file.stamp}_${suffix}_${file.fileName}`,
      }, (err, stdout, stderr)=>{
        if (err) {
-         console.log(err);
          reject(err);
        } else {
          let sendFile = file;

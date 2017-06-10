@@ -4,7 +4,7 @@ const PictureUploader = require('./picture/PictureUploader');
 
 module.exports = function(picture) {
   picture.upload = function(req, res, postId, cb) {
-    co(function*() {
+    let pictures = co(function*() {
       let pic = new PictureUploader();
       const result =  yield pic.parseRequest(req);
       const shrinkResult = yield pic.shrinkFiles();

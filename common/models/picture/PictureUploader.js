@@ -55,7 +55,7 @@ module.exports = class PictureUploader {
     });
   }
   shrinkFiles() {
-    return new Promise((reject, resolve)=>{
+    return new Promise((resolve, reject)=>{
       this.files.forEach(file=>{
         let fileToShrink = file;
         co(function*() {
@@ -63,8 +63,7 @@ module.exports = class PictureUploader {
             shrinkFile(fileToShrink, 150, 'thumbnail'),
             shrinkFile(fileToShrink, 350, 'small'),
           ];
-          console.log(result);
-          resolve(result);
+          yield resolve(result);
         }).catch(err => reject(err));
       });
     });
