@@ -29,6 +29,7 @@ module.exports = class PictureUploader {
         let newPath = `${PATH}${this.stamp}_${file.originalFilename}`;
         const fileData = {
           fileName: file.originalFilename,
+          name: `${this.stamp}_${file.originalFilename}`,
           stamp: this.stamp,
           dstPath: PATH,
           path: newPath,
@@ -56,16 +57,19 @@ module.exports = class PictureUploader {
   }
   shrinkFiles() {
     return new Promise((resolve, reject)=>{
-      this.files.forEach(file=>{
-        let fileToShrink = file;
-        co(function*() {
-          let result = yield[
-            shrinkFile(fileToShrink, 150, 'thumbnail'),
-            shrinkFile(fileToShrink, 350, 'small'),
-          ];
-          yield resolve(result);
-        }).catch(err => reject(err));
-      });
+      let fileToShrink = this.files;
+      let allFiles = [];
+      co(function*() {
+        for (let i = 0; i < fileToShrink.length; i++) {
+          let result = yield {
+            details: fileToShrink[i],
+            thumbnail: shrinkFile(fileToShrink[i], 150, 'thumbnail'),
+            small: shrinkFile(fileToShrink[i], 350, 'small'),
+          };
+          allFiles.push(result);
+        }
+        yield resolve(allFiles);
+      }).catch(err => reject(err));
     });
   }
 };

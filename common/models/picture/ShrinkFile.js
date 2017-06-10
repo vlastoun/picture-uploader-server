@@ -15,8 +15,8 @@
        if (err) {
          reject(err);
        } else {
-         let sendFile = file;
-         resolve(file);
+         let filename = `${file.stamp}_${suffix}_${file.fileName}`;
+         resolve(filename);
        }
      });
    });
