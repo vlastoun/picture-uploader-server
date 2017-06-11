@@ -74,8 +74,12 @@ module.exports = class PictureUploader {
             });
           }
         }
-        yield resolve(allFiles);
-      }).catch(err => reject(err));
+        if (allFiles.length < 1) {
+          reject('not processable image');
+        } else {
+          resolve(allFiles);
+        }
+      }).catch(err => console.log(err));
     });
   }
 };
