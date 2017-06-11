@@ -79,15 +79,12 @@ module.exports = function(picture) {
   }
 
   picture.delete = function(PictureId, callback) {
-    co(function*() {
-      let result = yield findById(PictureId);
-      let eraseFile = yield [
-        deleteFile(result.name),
-        deleteFile(result.nameSmall),
-        deleteFile(result.nameThumbnail),
-      ];
-      callback(null, eraseFile);
-    }).catch(err => callback(err));
+    let result = new Promise((resolve, reject)=>{
+      findById(PictureId)
+      .then(result=>resolve(result))
+      .catch(error=>reject(error));
+    });
+    result.then(data=>callback(null, data)).catch(error=>callback(error));
   };
   picture.remoteMethod(
     'delete',
