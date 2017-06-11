@@ -1,8 +1,10 @@
 // run generator
 const co = require('co');
+var fs = require('fs');
 const PictureUploader = require('./picture/PictureUploader');
-var CONTAINERS_URL = '/api/containers/';
-var CONTAINER = 'pictures';
+const CONTAINERS_URL = '/api/containers/';
+const CONTAINER = 'pictures';
+const PATH = `${__dirname}/../../files/${CONTAINER}/`;
 
 module.exports = function(picture) {
   function createEntryInDb(file, postId) {
@@ -51,6 +53,48 @@ module.exports = function(picture) {
         {arg: 'req', type: 'object', 'http': {source: 'req'}},
         {arg: 'res', type: 'object', 'http': {source: 'res'}},
         {arg: 'postId', type: 'string', required: true},
+      ],
+      returns: {arg: 'status', type: 'string'},
+    }
+  );
+
+  function findById(Id) {
+    return new Promise((resolve, reject)=>{
+      picture.findById(Id, (err, data)=>{
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    });
+  }
+  function deleteFile(filename) {
+    return new Promise((resolve, reject)=>{
+      let deletedFile = filename;
+      fs.unlink(`${PATH}${filename}`, () => {
+        resolve('deleted ', deletedFile);
+      });
+    });
+  }
+
+  picture.delete = function(PictureId, callback) {
+    co(function*() {
+      let result = yield findById(PictureId);
+      let eraseFile = yield [
+        deleteFile(result.name),
+        deleteFile(result.nameSmall),
+        deleteFile(result.nameThumbnail),
+      ];
+      callback(null, eraseFile);
+    }).catch(err => callback(err));
+  };
+  picture.remoteMethod(
+    'delete',
+    {
+      http: {path: '/delete', verb: 'post'},
+      accepts: [
+        {arg: 'PictureId', type: 'string', required: true},
       ],
       returns: {arg: 'status', type: 'string'},
     }

@@ -33,7 +33,7 @@
     },
     "nameThumbnail": {
       "type": "string"
-    }  
+    }
   },
   "validations": [],
   "relations": {
@@ -44,5 +44,22 @@
     }
   },
   "acls": [],
-  "methods": {}
+  "methods": {
+    "delete": {
+      "accepts": [
+        {
+          "arg": "PictureId",
+          "type": "number",
+          "required": true,
+          "description": "id of image to delete",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": [],
+      "description": "delete entry and all files",
+      "http": []
+    }
+  }
 }
