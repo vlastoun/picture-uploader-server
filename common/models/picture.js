@@ -1,14 +1,44 @@
 // run generator
 const co = require('co');
 const PictureUploader = require('./picture/PictureUploader');
+var CONTAINERS_URL = '/api/containers/';
+var CONTAINER = 'pictures';
 
 module.exports = function(picture) {
+  function createEntryInDb(file, postId) {
+    return new Promise((resolve, reject)=>{
+      picture.create({
+        title: '',
+        description: '',
+        name: file.details.name,
+        type: 'image',
+        url: `${CONTAINERS_URL}${CONTAINER}/download/${file.details.name}`,
+        urlSmall: `${CONTAINERS_URL}${CONTAINER}/download/${file.thumbnail}`,
+        urlThumbnail: `${CONTAINERS_URL}${CONTAINER}/download/${file.small}`,
+        nameSmall: file.small,
+        nameThumbnail: file.thumbnail,
+        postId: postId,
+      }, (err, object)=>{
+        if (err) {
+          reject(err);
+        } else {
+          resolve(object);
+        }
+      });
+    });
+  }
+
   picture.upload = function(req, res, postId, cb) {
     let pictures = co(function*() {
       let pic = new PictureUploader();
-      const result =  yield pic.parseRequest(req);
-      const shrinkResult = yield pic.shrinkFiles();
-      cb(null, shrinkResult);
+      yield pic.parseRequest(req);
+      let files = yield pic.shrinkFiles();
+      let createdFiles = [];
+      for (let i = 0; i < files.length; i++) {
+        let result = yield createEntryInDb(files[i], postId);
+        createdFiles.push(result);
+      }
+      cb(null, createdFiles);
     })
     .catch(err => { cb(err); });
   };
