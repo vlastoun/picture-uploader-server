@@ -73,7 +73,7 @@ module.exports = function(picture) {
     return new Promise((resolve, reject)=>{
       let deletedFile = filename;
       fs.unlink(`${PATH}${filename}`, () => {
-        resolve('deleted ', deletedFile);
+        resolve('deleted ');
       });
     });
   }
@@ -84,7 +84,19 @@ module.exports = function(picture) {
       .then(result=>resolve(result))
       .catch(error=>reject(error));
     });
-    result.then(data=>callback(null, data)).catch(error=>callback(error));
+    result.then(file=>{
+      deleteFile(file.name);
+      deleteFile(file.nameSmall);
+      deleteFile(file.nameThumbnail);
+      picture.deleteById(PictureId, err => {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, PictureId);
+        }
+      });
+    })
+    .catch(error=>callback(error));
   };
   picture.remoteMethod(
     'delete',
