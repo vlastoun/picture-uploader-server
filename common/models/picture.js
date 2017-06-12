@@ -7,6 +7,52 @@ const CONTAINER = 'pictures';
 const PATH = `${__dirname}/../../files/${CONTAINER}/`;
 
 module.exports = function(picture) {
+  function update(PictureId, postId, title, description) {
+    return new Promise((resolve, reject)=>{
+      picture.updateAll({id: PictureId}, {
+        title: title,
+        description: description,
+        postId: postId,
+      }, (err, info)=>{
+        if (err) {
+          reject(err);
+        } else {
+          const data = {
+            id: PictureId,
+            title: title,
+            description: description,
+            postId: postId,
+          };
+          resolve(data);
+        }
+      });
+    });
+  }
+
+  picture.updatedata = function(
+    PictureId, postId, title, description, callback) {
+    co(function*() {
+      const data = yield findById(PictureId);
+      if (data !== null) {
+        let result = yield update(PictureId, postId, title, description);
+        callback(null, result);
+      }
+    }).catch(error => callback(error));
+  };
+  picture.remoteMethod(
+    'updatedata',
+    {
+      http: {path: '/updatedata', verb: 'post'},
+      accepts: [
+        {arg: 'PictureId', type: 'string', required: true},
+        {arg: 'postId', type: 'string'},
+        {arg: 'title', type: 'string'},
+        {arg: 'description', type: 'string'},
+      ],
+      returns: {arg: 'status', type: 'string'},
+    }
+  );
+
   function createEntryInDb(file, postId) {
     return new Promise((resolve, reject)=>{
       picture.create({
@@ -105,7 +151,7 @@ module.exports = function(picture) {
       accepts: [
         {arg: 'PictureId', type: 'string', required: true},
       ],
-      returns: {arg: 'status', type: 'string'},
+      returns: {arg: 'deleted', type: 'string'},
     }
   );
 };
