@@ -7,6 +7,9 @@ const CONTAINER = 'pictures';
 const PATH = `${__dirname}/../../files/${CONTAINER}/`;
 
 module.exports = function(picture) {
+  /**********************************************************************/
+  /* Update remote method
+  /**********************************************************************/
   function update(PictureId, postId, title, description) {
     return new Promise((resolve, reject)=>{
       picture.updateAll({id: PictureId}, {
@@ -52,7 +55,9 @@ module.exports = function(picture) {
       returns: {arg: 'status', type: 'string'},
     }
   );
-
+  /**********************************************************************/
+  /* Create remote method
+  /**********************************************************************/
   function createEntryInDb(file, postId) {
     return new Promise((resolve, reject)=>{
       picture.create({
@@ -104,6 +109,9 @@ module.exports = function(picture) {
     }
   );
 
+  /**********************************************************************/
+  /* Delete remote method
+  /**********************************************************************/
   function findById(Id) {
     return new Promise((resolve, reject)=>{
       picture.findById(Id, (err, data)=>{
