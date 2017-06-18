@@ -55,5 +55,9 @@
   "picture": {
     "dataSource": "db",
     "public": true
+  },
+  "accesstoken": {
+    "dataSource": "db",
+    "public": true
   }
 }

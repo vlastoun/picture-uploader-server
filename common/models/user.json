@@ -12,6 +12,11 @@
       "type": "hasMany",
       "model": "post",
       "foreignKey": ""
+    },
+    "accesstokens": {
+      "type": "hasMany",
+      "model": "accesstoken",
+      "foreignKey": ""
     }
   },
   "acls": [],
