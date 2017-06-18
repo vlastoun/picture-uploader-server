@@ -59,5 +59,9 @@
   "accesstoken": {
     "dataSource": "db",
     "public": true
+  },
+  "cloudipicture": {
+    "dataSource": "db",
+    "public": true
   }
 }
