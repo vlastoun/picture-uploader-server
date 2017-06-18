@@ -27,11 +27,6 @@
       "model": "user",
       "foreignKey": ""
     },
-    "pictures": {
-      "type": "hasMany",
-      "model": "picture",
-      "foreignKey": ""
-    },
     "cloudipictures": {
       "type": "hasMany",
       "model": "cloudipicture",

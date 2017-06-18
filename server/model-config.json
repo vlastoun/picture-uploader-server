@@ -48,14 +48,6 @@
     "dataSource": "db",
     "public": true
   },
-  "container": {
-    "dataSource": "storage",
-    "public": true
-  },
-  "picture": {
-    "dataSource": "db",
-    "public": true
-  },
   "accesstoken": {
     "dataSource": "db",
     "public": true
