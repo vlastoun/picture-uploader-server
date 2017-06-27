@@ -23,17 +23,41 @@ module.exports = function (app) {
     { name: "admin" },
     { name: "user" }
     ];
-
-
-
-  User.create(users, function (err, users) {
-    if (err) throw err;
-    Role.create(roles, (err, role) => {
-    if(err){
-      console.log(err)
-    }
-    RoleMapping.create()
-    });
   
+  const createUsers = new Promise((resolve, reject)=>{
+    User.create(users, (err, users)=>{
+      err
+      ? reject(err)
+      : resolve(users)
+    });
+  });
+
+  const createRoles = new Promise((resolve, reject)=>{
+    Role.create(roles, (err, roles)=>{
+      err
+      ? reject(err)
+      : resolve(roles)
+    })
+  })
+
+  Promise.all([
+    createUsers,
+    createRoles,
+  ]).then(([users, roles], err) => {
+    const user = users[0];
+    const superuser = roles[0];
+    const admin = roles[1];
+    admin.principals.create({
+      principalType: RoleMapping.USER,
+      principalId: user.id
+    }, (err, principal)=>{
+      console.log(principal)
+    })
+    superuser.principals.create({
+      principalType: RoleMapping.USER,
+      principalId: user.id
+    }, (err, principal)=>{
+      console.log(principal)
+    })
   });
 };
