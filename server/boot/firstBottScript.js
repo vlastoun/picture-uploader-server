@@ -5,10 +5,9 @@
 
 module.exports = function (app) {
   const User = app.models.user;
+  const Role = app.models.Role;
   const Category = app.models.category;
-  const Role = app.models.role;
   const RoleMapping = app.models.RoleMapping;
-  const ACL = app.models.ACL;
 
   RoleMapping.belongsTo(User);
   RoleMapping.belongsTo(Role);
@@ -19,6 +18,13 @@ module.exports = function (app) {
   const users = [
     { username: 'vlastoun', email: 'vlastoun@gmail.com', password: 'lopatka' },
     { username: 'user', email: 'user@gmail.com', password: 'lopatka' },
+    { username: 'admin', email: 'admin@gmail.com', password: 'lopatka' },
+  ];
+
+  const categories = [
+    { name: 'vlastoun', description: 'vlastoun@gmail.com' },
+    { name: 'user', description: 'user@gmail.com' },
+    { name: 'admin', description: 'admin@gmail.com' },
   ];
 
   const roles = [
@@ -50,16 +56,26 @@ module.exports = function (app) {
     const superuser = roles[0];
     const admin = roles[1];
     superuser.principals.create({
-      principalType: 'superuser',
+      principalType: RoleMapping.USER,
       principalId: users[0].id
     }, (err, principal)=>{
       console.log('superuser', principal)
     })
     admin.principals.create({
-      principalType: 'admin',
+      principalType: RoleMapping.USER,
       principalId: users[1].id
     }, (err, principal)=>{
       console.log('admin', principal)
     })
+    admin.principals.create({
+      principalType: RoleMapping.USER,
+      principalId: users[2].id
+    }, (err, principal)=>{
+      console.log('admin', principal)
+    })
   });
+
+  Category.create(categories, (err, categories)=>{
+    console.log(categories);
+  })
 };
