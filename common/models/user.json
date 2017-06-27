@@ -21,7 +21,8 @@
     "roles": {
       "type": "hasMany",
       "model": "role",
-      "foreignKey": ""
+      "foreignKey": "principalId",
+      "through": "RoleMapping"
     }
   },
   "acls": [],
