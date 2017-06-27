@@ -17,6 +17,11 @@
       "type": "hasMany",
       "model": "accesstoken",
       "foreignKey": ""
+    },
+    "roles": {
+      "type": "hasMany",
+      "model": "role",
+      "foreignKey": ""
     }
   },
   "acls": [],

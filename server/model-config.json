@@ -52,7 +52,7 @@
     "dataSource": "db",
     "public": true
   },
-  "cloudipicture": {
+  "role": {
     "dataSource": "db",
     "public": true
   }
