@@ -47,5 +47,9 @@
   "category": {
     "dataSource": "db",
     "public": true
+  },
+  "role": {
+    "dataSource": "db",
+    "public": true
   }
 }

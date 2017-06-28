@@ -19,9 +19,9 @@
       "foreignKey": ""
     },
     "roles": {
-      "type": "hasMany",
+      "type": "hasAndBelongsToMany",
       "model": "role",
-      "foreignKey": "userId"
+      "foreignKey": "roleId"
     }
   },
   "acls": [
