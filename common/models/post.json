@@ -29,11 +29,6 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": ""
-    },
-    "cloudipictures": {
-      "type": "hasMany",
-      "model": "cloudipicture",
-      "foreignKey": ""
     }
   },
   "acls": [],
