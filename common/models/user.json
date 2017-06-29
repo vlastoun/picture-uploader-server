@@ -22,6 +22,11 @@
       "type": "hasAndBelongsToMany",
       "model": "role",
       "foreignKey": "roleId"
+    },
+    "cloudinaries": {
+      "type": "hasMany",
+      "model": "cloudinary",
+      "foreignKey": ""
     }
   },
   "acls": [

@@ -21,6 +21,11 @@
       "type": "hasMany",
       "model": "post",
       "foreignKey": ""
+    },
+    "cloudinaries": {
+      "type": "hasMany",
+      "model": "cloudinary",
+      "foreignKey": ""
     }
   },
   "acls": [

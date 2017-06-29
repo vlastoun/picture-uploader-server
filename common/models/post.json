@@ -29,6 +29,11 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": ""
+    },
+    "cloudinaries": {
+      "type": "hasMany",
+      "model": "cloudinary",
+      "foreignKey": ""
     }
   },
   "acls": [],
