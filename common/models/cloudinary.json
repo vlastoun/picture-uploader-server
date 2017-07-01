@@ -65,12 +65,6 @@
     }
   },
   "acls": [
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "superuser",
-      "permission": "ALLOW"
-    }
   ],
   "methods": {}
 }
