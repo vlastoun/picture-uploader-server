@@ -22,9 +22,8 @@ module.exports = function (app) {
   ];
 
   const categories = [
-    { name: 'vlastoun', description: 'vlastoun@gmail.com' },
-    { name: 'user', description: 'user@gmail.com' },
-    { name: 'admin', description: 'admin@gmail.com' },
+    { name: 'prvni kategorie', description: 'popis prvni kategorie' },
+    { name: 'druha kategorie', description: 'popis druhe kategorie' },
   ];
 
   const roles = [
@@ -59,23 +58,30 @@ module.exports = function (app) {
       principalType: RoleMapping.USER,
       principalId: users[0].id
     }, (err, principal)=>{
-      console.log('superuser', principal)
     })
     admin.principals.create({
       principalType: RoleMapping.USER,
       principalId: users[1].id
     }, (err, principal)=>{
-      console.log('admin', principal)
     })
-    admin.principals.create({
-      principalType: RoleMapping.USER,
-      principalId: users[2].id
-    }, (err, principal)=>{
-      console.log('admin', principal)
-    })
-  });
+  }).then(()=>{
+    console.log('Default users created')
+    User.observe('after save', (ctx, next)=>{
+      if(ctx.isNewInstance) {
+        Role.findOne({where: {name: 'user'}}, (error, role) => {
+          role.principals.create({
+            principalType: RoleMapping.USER,
+            principalId: ctx.instance.id,
+          }, (error, principal) => {
+            console.log(principal);
+            next()
+          })      
+        })
+      }
+    });
+  })
 
   Category.create(categories, (err, categories)=>{
-    console.log(categories);
+    console.log('Categories created');
   })
 };
