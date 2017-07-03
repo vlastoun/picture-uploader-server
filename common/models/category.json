@@ -38,25 +38,13 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "superuser",
+      "principalId": "$authenticated",
       "permission": "ALLOW"
     },
     {
       "accessType": "READ",
       "principalType": "ROLE",
       "principalId": "$unauthenticated",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "READ",
-      "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW"
-    },
-    {
-      "accessType": "*",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
       "permission": "ALLOW"
     }
   ],
