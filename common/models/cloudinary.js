@@ -24,4 +24,16 @@ module.exports = function(Cloudinary) {
     });
     callback(null, {status: 'OK'});
   };
+
+  /**
+ * direct remove of cloudinary picture
+ * @param {string} publicId public cloudinary id
+ * @param {Function(Error, string)} callback
+ */
+
+  Cloudinary.directRemove = function(publicId, callback) {
+    cloudinary.uploader.destroy(publicId, (response)=>{
+      callback(null, response);
+    });
+  };
 };

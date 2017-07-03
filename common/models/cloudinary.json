@@ -93,6 +93,34 @@
           "verb": "post"
         }
       ]
+    },
+    "directRemove": {
+      "accepts": [
+        {
+          "arg": "publicId",
+          "type": "string",
+          "required": true,
+          "description": "public cloudinary id",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "status",
+          "type": "string",
+          "root": false,
+          "description": "response of server"
+        }
+      ],
+      "description": "direct remove of cloudinary picture",
+      "http": [
+        {
+          "path": "/direct-remove",
+          "verb": "post"
+        }
+      ]
     }
   }
 }
