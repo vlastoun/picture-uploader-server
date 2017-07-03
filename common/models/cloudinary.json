@@ -64,7 +64,35 @@
       "foreignKey": ""
     }
   },
-  "acls": [
-  ],
-  "methods": {}
+  "acls": [],
+  "methods": {
+    "deleteImage": {
+      "accepts": [
+        {
+          "arg": "imageId",
+          "type": "string",
+          "required": true,
+          "description": "public id of image",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": [
+        {
+          "arg": "status",
+          "type": "string",
+          "root": false,
+          "description": "return value when sucessful"
+        }
+      ],
+      "description": "",
+      "http": [
+        {
+          "path": "/delete-image",
+          "verb": "post"
+        }
+      ]
+    }
+  }
 }
