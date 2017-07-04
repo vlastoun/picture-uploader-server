@@ -14,46 +14,46 @@
     ]
   },
   "User": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": false
   },
   "user": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "post": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "category": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "role": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   },
   "cloudinary": {
-    "dataSource": "db",
+    "dataSource": "postgres",
     "public": true
   }
 }
