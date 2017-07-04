@@ -1,10 +1,20 @@
 'use strict';
-
+require('dotenv').config();
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
-
+const config = {
+  'host': process.env.DB_HOST,
+  'port': 5432,
+  'url': '',
+  'database': process.env.DB_DATABASE,
+  'password': process.env.DB_PASSWORD,
+  'name': 'postgres',
+  'user': process.env.DB_USER,
+  'connector': 'postgresql',
+};
+app.dataSource('postgres', config);
 
 app.start = function() {
   // start the web server
