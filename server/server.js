@@ -3,6 +3,7 @@ require('dotenv').config();
 var loopback = require('loopback');
 var boot = require('loopback-boot');
 
+console.log(process.env.NODE_ENV);
 var app = module.exports = loopback();
 if (process.env.DATABASE_URL) {
   console.log('heroku');

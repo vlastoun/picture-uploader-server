@@ -50,7 +50,7 @@
   },
   "role": {
     "dataSource": "postgres",
-    "public": true
+    "public": false
   },
   "cloudinary": {
     "dataSource": "postgres",
@@ -58,7 +58,7 @@
   },
   "rolemapping": {
     "dataSource": "postgres",
-    "public": true,
+    "public": false,
     "options": {
       "strictObjectIDCoercion": true
     }

@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "start": "node .",
     "posttest": "npm run lint && nsp check",
-    "dev": "nodemon server/server"
+    "dev": "nodemon server/server",
+    "prod": "NODE_ENV=production nodemon server/server"
   },
   "dependencies": {
     "cloudinary": "^1.9.0",
