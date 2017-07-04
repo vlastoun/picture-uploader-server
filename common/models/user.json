@@ -18,11 +18,6 @@
       "model": "accesstoken",
       "foreignKey": ""
     },
-    "roles": {
-      "type": "hasAndBelongsToMany",
-      "model": "role",
-      "foreignKey": "roleId"
-    },
     "cloudinaries": {
       "type": "hasMany",
       "model": "cloudinary",

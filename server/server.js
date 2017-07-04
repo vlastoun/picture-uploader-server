@@ -4,12 +4,26 @@ var loopback = require('loopback');
 var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
-const config = {
-  'url': `${process.env.DATABASE_URL}?ssl=true`,
-  'name': 'postgres',
-  'connector': 'postgresql',
-};
-app.dataSource('postgres', config);
+if (process.env.DATABASE_URL) {
+  console.log('heroku');
+  const config = {
+    'url': `${process.env.DATABASE_URL}?ssl=true`,
+    'name': 'postgres',
+    'connector': 'postgresql',
+  };
+  app.dataSource('postgres', config);
+} else {
+  console.log('DB localhost');
+  const config = {
+    'user': process.env.DB_USER,
+    'password': process.env.DB_PASSWORD,
+    'host': process.env.DB_HOST,
+    'database': process.env.DB_DATABASE,
+    'name': 'postgres',
+    'connector': 'postgresql',
+  };
+  app.dataSource('postgres', config);
+}
 
 app.start = function() {
   // start the web server
