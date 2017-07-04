@@ -4,13 +4,13 @@
     "connector": "memory"
   },
   "postgres": {
-    "host": "ec2-54-75-229-201.eu-west-1.compute.amazonaws.com",
+    "host": "localhost",
     "port": 5432,
-    "url": "postgres://fhhsnjzjloxaap:5743cec1d0f3fbb6da9bbf81d93450a18a1886697ab55760bf409dc9cff61599@ec2-54-75-229-201.eu-west-1.compute.amazonaws.com:5432/d3l96c3huagtko",
-    "database": "d3l96c3huagtko",
-    "password": "5743cec1d0f3fbb6da9bbf81d93450a18a1886697ab55760bf409dc9cff61599",
+    "url": "",
+    "database": "database",
+    "password": "lopatka",
     "name": "postgres",
-    "user": "fhhsnjzjloxaap",
+    "user": "user_1",
     "connector": "postgresql"
   }
 }
