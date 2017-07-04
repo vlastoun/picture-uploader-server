@@ -4,9 +4,9 @@ var app = require('../server');
 var dataSource = app.dataSources.postgres;
 
 const models = [
-  'ACL', 'AccessToken', 'RoleMapping',
+  'ACL', 'AccessToken',
   'user', 'post', 'category',
-  'role', 'cloudinary',
+  'role', 'cloudinary', 'rolemapping',
 ];
 const automigrate = (data) => new Promise((resolve, reject)=>{
   dataSource.isActual(data, function(err, actual) {
@@ -21,7 +21,7 @@ const automigrate = (data) => new Promise((resolve, reject)=>{
 });
 automigrate('ACL').then(
   automigrate('AccessToken').then(
-    automigrate('RoleMapping').then(
+    automigrate('rolemapping').then(
       automigrate('user').then(
         automigrate('post').then(
           automigrate('category').then(

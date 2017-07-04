@@ -7,7 +7,14 @@
   },
   "properties": {},
   "validations": [],
-  "relations": {},
+  "relations": {
+    "users": {
+      "type": "hasMany",
+      "model": "user",
+      "foreignKey": "",
+      "through": "rolemapping"
+    }
+  },
   "acls": [
     {
       "accessType": "*",

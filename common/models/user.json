@@ -22,16 +22,15 @@
       "type": "hasMany",
       "model": "cloudinary",
       "foreignKey": ""
+    },
+    "roles": {
+      "type": "hasAndBelongsToMany",
+      "model": "role",
+      "foreignKey": "",
+      "through": "rolemapping"
     }
   },
   "acls": [
-    {
-      "accessType": "EXECUTE",
-      "principalType": "ROLE",
-      "principalId": "$everyone",
-      "permission": "ALLOW",
-      "property": "create"
-    },
     {
       "accessType": "EXECUTE",
       "principalType": "ROLE",
@@ -48,8 +47,14 @@
     {
       "accessType": "*",
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$owner",
       "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
     }
   ],
   "methods": {}

@@ -7,7 +7,7 @@ module.exports = function (app) {
   const User = app.models.user;
   const Role = app.models.Role;
   const Category = app.models.category;
-  const RoleMapping = app.models.RoleMapping;
+  const RoleMapping = app.models.rolemapping;
 
   RoleMapping.belongsTo(User);
   RoleMapping.belongsTo(Role);
