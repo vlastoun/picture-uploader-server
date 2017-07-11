@@ -19,6 +19,9 @@
     },
     "date": {
       "type": "string"
+    },
+    "mainimg": {
+      "type": "string"
     }
   },
   "validations": [],
