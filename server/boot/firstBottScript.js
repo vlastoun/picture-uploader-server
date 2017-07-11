@@ -80,8 +80,4 @@ module.exports = function (app) {
       }
     });
   })
-
-  Category.create(categories, (err, categories)=>{
-    console.log('Categories created');
-  })
 };

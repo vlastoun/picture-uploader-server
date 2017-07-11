@@ -1,6 +1,6 @@
 {
   "name": "category",
-  "plural": "ctagories",
+  "plural": "categories",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

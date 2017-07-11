@@ -16,6 +16,9 @@
     },
     "body": {
       "type": "string"
+    },
+    "date": {
+      "type": "string"
     }
   },
   "validations": [],
