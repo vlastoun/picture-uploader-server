@@ -2,8 +2,9 @@
 // Node module: loopback-example-access-control
 // This file is licensed under the Artistic License 2.0.
 // License text available at https://opensource.org/licenses/Artistic-2.0
-
+require('dotenv').config();
 module.exports = function (app) {
+  console.log('password:', process.env.ADMIN_PASSWORD);
   const User = app.models.user;
   const Role = app.models.Role;
   const Category = app.models.category;
@@ -14,11 +15,8 @@ module.exports = function (app) {
   User.hasMany(Role, {through: RoleMapping, foreignKey: 'principalId'});
   User.hasMany(RoleMapping, {foreignKey: 'principalId'});
   Role.hasMany(User, {through: RoleMapping, foreignKey: 'roleId'});
-  
   const users = [
-    { username: 'vlastoun', email: 'vlastoun@gmail.com', password: 'lopatka' },
-    { username: 'user', email: 'user@gmail.com', password: 'lopatka' },
-    { username: 'admin', email: 'admin@gmail.com', password: 'lopatka' },
+    { username: 'vlastoun', email: 'vlastoun@gmail.com', password: process.env.ADMIN_PASSWORD },
   ];
 
   const categories = [

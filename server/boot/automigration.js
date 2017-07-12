@@ -19,19 +19,6 @@ const automigrate = (data) => new Promise((resolve, reject)=>{
     }
   });
 });
-automigrate('ACL').then(
-  automigrate('AccessToken').then(
-    automigrate('rolemapping').then(
-      automigrate('user').then(
-        automigrate('post').then(
-          automigrate('category').then(
-            automigrate('role').then(
-              automigrate('cloudinary').then(console.log('done'))
-            )
-          )
-        )
-      )
-    )
-  )
-);
+
+automigrate(models).then(console.log('db migrated'));
 
