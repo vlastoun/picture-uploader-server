@@ -103,7 +103,7 @@ module.exports = function(picture) {
       accepts: [
         {arg: 'req', type: 'object', 'http': {source: 'req'}},
         {arg: 'res', type: 'object', 'http': {source: 'res'}},
-        {arg: 'postId', type: 'string', required: true},
+        {arg: 'postId', type: 'string'},
       ],
       returns: {arg: 'status', type: 'string'},
     }
